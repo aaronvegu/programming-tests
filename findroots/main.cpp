@@ -1,4 +1,5 @@
 #include<iostream>
+#include<vector>
 #include<math.h>
 
 using namespace std;
@@ -7,13 +8,18 @@ using namespace std;
 bool isTheAnswer(double a, double b, double c, double d, double x);
 
 int main(int argc, char** argv) {
+    // Manejo de errores
+    bool isError = false;
 
-    // Inicializamos variable de la raiz
+    // Vector para almacenar las raices del resultado
+    vector<double> results;
+
+    // Declaramos variable de la raiz
     double x;
     
     // Verificamos haber recibido los cuatro valores requeridos para el polinomio
     if (argc != 5) {
-        cout << "Error: No se ingresaron los 4 valores para las variables a, b, c y d" << endl;
+        cout << "Error: No se ingresaron los 4 valores para las variables a, b, c y d. Se regresa vector vacio" << endl;
         return -1; 
     }
 
@@ -31,7 +37,7 @@ int main(int argc, char** argv) {
      * Checar que x = 1 sea una solucion para el polinomio
      */
     if (isTheAnswer(a, b, c, d, 1))
-        cout << 1 << " es una de las raices" << endl;
+        results.push_back((double)1);
 
     /**
      * 2da Revision:
@@ -40,9 +46,18 @@ int main(int argc, char** argv) {
      * entonces -1 es una solucion a la raiz.
      */
     if ((a + c) == (b + d))
-        cout << -1 << " es una de las raices" << endl;
+        results.push_back((double)-1);
 
-    return 0;
+
+
+    if (!isError) {
+        // Imprimimos contenido del vector de resultados
+        cout << "{ ";
+        for (auto i = results.begin(); i != results.end(); ++i)
+            cout << *i << " ";
+        cout << "}";
+        return EXIT_SUCCESS;
+    }
 }
 
 // Funcion de evaluacion
