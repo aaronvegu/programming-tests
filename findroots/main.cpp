@@ -11,7 +11,10 @@ vector<double> possibleRoots;
 bool isTheAnswer(double a, double b, double c, double d, double x);
 
 // Prototipo de funcion para obtener los factores de n
-void factorsOf(double n);
+vector<double> factorsOf(double n);
+
+// Prototipo de funcion para obtener las posibles raices
+void getPossibleRoots(vector<double> p, vector<double> q);
 
 int main(int argc, char** argv) {
     // Manejo de errores
@@ -59,17 +62,19 @@ int main(int argc, char** argv) {
      * Tomamos el primer y ultimo coeficiente, teniendo:
      * q = a, p = d. Donde a = ax^3 y d = dx^0
      * Para buscar los divisores o factores de P y Q, y almacenarlos
-     * como posibles soluciones de raices
+     * como posibles soluciones de raices, a traves de las divisiones posibles
+     * entre p y q, incluyendo positivos y negativos
      */
     // Obtenemos factores de a
-    factorsOf(a);
+    vector<double> p = factorsOf(d);
     // Obtenemos factores de d
-    factorsOf(d);
+    vector<double> q = factorsOf(a);
+    // Obtenemos posibles raices en base a p / q
+    getPossibleRoots(p, q);
 
     cout << "Possible factors:" << endl;
     for (auto i = possibleRoots.begin(); i != possibleRoots.end(); ++i)
         cout << *i << " ";
-
 
     // Validamos no contar con errores en el programa
     if (!isError) {
@@ -93,20 +98,32 @@ bool isTheAnswer(double a, double b, double c, double d, double x) {
 }
 
 // Funcion para obtener los factores de n
-void factorsOf(double n) {
-    for (int i = 0; i <= sqrt(n); i++)
+vector<double> factorsOf(double n) {
+    // vector temporal a devolver
+    vector<double> temp;
+
+    for (int i = 0; i <= sqrt(n); i++) // Todos los divisores vienen en pares
     {
         if (fmod(n,(double)i) == 0) { // De ser divisibles (usando modulo)
-            if (n / i == i) {// Si la division es entre mismos numeros, solo agregar uno
-                if (find(possibleRoots.begin(), possibleRoots.end(), i) == possibleRoots.end())
-                    possibleRoots.push_back(i); // de no existir en vector, agregarlo
-            }
+            if (n / i == i) // Si la division es entre mismos numeros, solo agregar uno
+                temp.push_back(i); 
             else { // de lo contario, agregar ambos
-                if (find(possibleRoots.begin(), possibleRoots.end(), i) == possibleRoots.end())
-                    possibleRoots.push_back(i); // de no existir en vector, agregarlo
-                if (find(possibleRoots.begin(), possibleRoots.end(), n/i) == possibleRoots.end())
-                    possibleRoots.push_back(n/i); // de no existir en vector, agregarlo
+                temp.push_back(i); 
+                temp.push_back(n/i); 
             }      
+        }
+    }
+
+    return temp; // devolvemos vector con factores de n
+}
+
+// Funcion para obtener vector con posibles raices en base a la division de p / q
+void getPossibleRoots(vector<double> p, vector<double> q) {
+    for (auto i = p.begin(); i != p.end(); ++i) {
+        for (auto t = q.begin(); t != q.end(); ++t) {
+            // Si el resultado de la div no existe en el vector y es distinto de 1, agregarlo
+            if (find(possibleRoots.begin(), possibleRoots.end(), *i / *t) == possibleRoots.end() && (*i / *t) != 1)
+                possibleRoots.push_back(*i / *t);
         }
     }
 }
