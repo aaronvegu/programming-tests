@@ -10,7 +10,7 @@ int main(int argc, char** argv)
     // Verificar que se obtuvo un argumento
     if (argc != 2)
     {
-        std::cout << "Se esperaba un parametro que no fue ingresado." << std::endl;
+        std::cout << "Error: Se esperaba un parametro que no fue ingresado." << std::endl;
         return -1;
     }
 
