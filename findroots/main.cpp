@@ -4,8 +4,14 @@
 
 using namespace std;
 
+// Vector para almacenar las raices del resultado
+vector<double> results;
+
 // Vector para almacenar posibles soluciones
 vector<double> possibleRoots;
+
+// Manejo de errores
+bool isError = false;
 
 // Prototipo de funcion para evaluar polinomio a un valor asignado
 bool isTheAnswer(double a, double b, double c, double d, double x);
@@ -16,12 +22,14 @@ vector<double> factorsOf(double n);
 // Prototipo de funcion para obtener las posibles raices
 void getPossibleRoots(vector<double> p, vector<double> q);
 
-int main(int argc, char** argv) {
-    // Manejo de errores
-    bool isError = false;
+// Prototipo de funcion para imprimir resultados
+void printResults();
 
-    // Vector para almacenar las raices del resultado
-    vector<double> results;
+int main(int argc, char** argv) {
+    // Contador de raices
+    // si raices > 3 = se encontraron todas las raices posibles
+    // segun la la regla de los signos de Descartes
+    int rootsCounters = 0;
 
     // Declaramos variable de la raiz
     double x;
@@ -45,8 +53,10 @@ int main(int argc, char** argv) {
      * 1ra Revision:
      * Checar que x = 1 sea una solucion para el polinomio
      */
-    if (isTheAnswer(a, b, c, d, 1))
+    if (isTheAnswer(a, b, c, d, 1)) {
         results.push_back((double)1);
+        rootsCounters++;
+    }
 
     /**
      * 2da Revision:
@@ -54,8 +64,10 @@ int main(int argc, char** argv) {
      * Usando la regla: si la suma de los coeficientes de terminos alternos son iguales,
      * entonces -1 es una solucion a la raiz.
      */
-    if ((a + c) == (b + d))
+    if ((a + c) == (b + d)) {
         results.push_back((double)-1);
+        rootsCounters++;
+    }
 
     /**
      * 3ra Revision:
@@ -76,13 +88,33 @@ int main(int argc, char** argv) {
     for (auto i = possibleRoots.begin(); i != possibleRoots.end(); ++i)
         cout << *i << " ";
 
+    /**
+     * Una vez obtenidos las posibles raices, procedemos a realizar una
+     * division sintetica con los valores de nuestra polinomio y cada posible
+     * raiz hasta obtener un remainder de 0, indicando haber logrado reducir nuestro
+     * polinomio a una ecuacion cuadratica
+     */
+    float value1, value2, value3, value4; // variables para nuevos valores
+    // Division sintetica por cada posible raiz
+    for (auto i = possibleRoots.begin(); i != possibleRoots.end(); ++i) {
+        value1 = a;
+        value2 = (*i * value1) + b;
+        value3 = (*i * value2) + c;
+        value4 = (*i * value3) + d;
+        if (value4 == 0) { // Si el remainder es 0, encontramos la raiz
+            results.push_back(*i);
+            rootsCounters++;
+            if (rootsCounters >= 3 && !isError) {
+                printResults();
+                return EXIT_SUCCESS;
+            }
+        }
+    }
+    
+
     // Validamos no contar con errores en el programa
     if (!isError) {
-        // Imprimimos contenido del vector de resultados
-        cout << "{ ";
-        for (auto i = results.begin(); i != results.end(); ++i)
-            cout << *i << " ";
-        cout << "}";
+        printResults();
         return EXIT_SUCCESS;
     }
 }
@@ -122,8 +154,19 @@ void getPossibleRoots(vector<double> p, vector<double> q) {
     for (auto i = p.begin(); i != p.end(); ++i) {
         for (auto t = q.begin(); t != q.end(); ++t) {
             // Si el resultado de la div no existe en el vector y es distinto de 1, agregarlo
-            if (find(possibleRoots.begin(), possibleRoots.end(), *i / *t) == possibleRoots.end() && (*i / *t) != 1)
-                possibleRoots.push_back(*i / *t);
+            if (find(possibleRoots.begin(), possibleRoots.end(), *i / *t) == possibleRoots.end() && (*i / *t) != 1) {
+                possibleRoots.push_back(*i / *t); // agregamos + y - de cada valor
+                possibleRoots.push_back(-(*i / *t));
+            }
         }
     }
+}
+
+// Funcion para imprimir vector con raices
+void printResults() {
+        // Imprimimos contenido del vector de resultados
+        cout << "{ ";
+        for (auto i = results.begin(); i != results.end(); ++i)
+            cout << *i << " ";
+        cout << "}";
 }
