@@ -5,11 +5,19 @@
 
 namespace fs = std::filesystem;
 
-int main()
+int main(int argc, char** argv)
 {
+    // Verificar que se obtuvo un argumento
+    if (argc != 2)
+    {
+        std::cout << "Se esperaba un parametro que no fue ingresado." << std::endl;
+        return -1;
+    }
+
     std::fstream file("dir.json", std::ios::out);
 
-    std::string path = "/Users/aaronvegu/Downloads";
+    //std::string path = "/Users/aaronvegu/Downloads";
+    std::string path = argv[1];
 
     file << "{ \"files\": [" << std::endl;
     for (const auto & entry : fs::directory_iterator(path)) {
