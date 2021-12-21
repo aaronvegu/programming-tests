@@ -28,8 +28,10 @@ void printResults();
 int main(int argc, char** argv) {
     // Contador de raices
     // si raices > 3 = se encontraron todas las raices posibles
-    // segun la la regla de los signos de Descartes
     int rootsCounters = 0;
+
+    // Declaracion de discriminante y su raiz cuadrada
+    double discriminant, squareDiscriminant;
 
     // Declaramos variable de la raiz
     double x;
@@ -45,9 +47,6 @@ int main(int argc, char** argv) {
     double b = stod(argv[2]);
     double c = stod(argv[3]);
     double d = stod(argv[4]);
-
-    // PRUEBA
-    //cout << "a: " << a << ", b: " << b << ", c: " << c << ", d: " << d << endl;
 
     /**
      * 1ra Revision:
@@ -79,8 +78,12 @@ int main(int argc, char** argv) {
      */
     // Obtenemos factores de a
     vector<double> p = factorsOf(d);
+    for (auto i = p.begin(); i != p.end(); ++i)
+        cout << "P: " << *i << " ";
     // Obtenemos factores de d
     vector<double> q = factorsOf(a);
+    for (auto i = q.begin(); i != q.end(); ++i)
+        cout << "Q: " << *i << " ";
     // Obtenemos posibles raices en base a p / q
     getPossibleRoots(p, q);
 
@@ -104,7 +107,36 @@ int main(int argc, char** argv) {
         if (value4 == 0) { // Si el remainder es 0, encontramos la raiz
             results.push_back(*i);
             rootsCounters++;
-            if (rootsCounters >= 3 && !isError) {
+            if (rootsCounters < 3) { // Si quedan raices por encontrar
+            // Aplicamos formula cuadratica con valores reducidos
+            cout << "Values: a " << value1 << ", b " << value2 << ", c" << value3 << ", d" << value4 << endl;
+
+            // Obtenemos el discriminante de la formula
+            discriminant = ((value2 * value2) - (4 * value1 * value3));
+            cout << "discriminante: " <<  discriminant << endl;
+
+            // Si el discriminante es negativo, raiz no es real
+            if (discriminant < 0.0) break;
+
+            // Obtenemos su raiz cuadrada
+            squareDiscriminant = sqrt(discriminant);
+            cout << "raiz de discriminante: " <<  squareDiscriminant << endl;
+
+            // Calculamos las dos posibles raices
+            double root1 = ((-1 * value2) - (squareDiscriminant)) / (2 * value1);
+            double root2 = ((-1 * value2) + (squareDiscriminant)) / (2 * value1);
+
+            cout << "root1: " << root1 << endl;
+            cout << "root2: " << root2 << endl;
+
+            // Cargamos raices a vector de resultados
+            results.push_back(root1);
+            results.push_back(root2);
+
+            // Actualizamos nuestro contador de raices
+            rootsCounters += 2;
+            }
+            if (rootsCounters >= 3 && !isError) { // Si se llegó al limite de raices y no hay errores
                 printResults();
                 return EXIT_SUCCESS;
             }
@@ -133,6 +165,9 @@ bool isTheAnswer(double a, double b, double c, double d, double x) {
 vector<double> factorsOf(double n) {
     // vector temporal a devolver
     vector<double> temp;
+
+    // Si n es negativo, lo pasamos a positivo para poder calcular su raiz
+    if (n < 0.0) n = -n;
 
     for (int i = 0; i <= sqrt(n); i++) // Todos los divisores vienen en pares
     {
