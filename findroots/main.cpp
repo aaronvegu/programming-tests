@@ -7,10 +7,10 @@ using namespace std;
 // Vector para almacenar las raices del resultado
 vector<double> results;
 
-// Vector para almacenar posibles soluciones
+// Vector para almacenar posibles soluciones (resultado de la div sintetica)
 vector<double> possibleRoots;
 
-// Manejo de errores
+// Bandera para el manejo de errores
 bool isError = false;
 
 // Prototipo de funcion para evaluar polinomio a un valor asignado
@@ -24,6 +24,9 @@ void getPossibleRoots(vector<double> p, vector<double> q);
 
 // Prototipo de funcion para imprimir resultados
 void printResults();
+
+// Prototipo de funcion para calcular potencias
+double calculatePow(double base, int exponent);
 
 int main(int argc, char** argv) {
     // Contador de raices
@@ -153,7 +156,7 @@ int main(int argc, char** argv) {
 
 // Funcion de evaluacion
 bool isTheAnswer(double a, double b, double c, double d, double x) {
-    double result = ((a * pow(x, 3)) + (b * pow(x, 2)) + (c * x) + d);
+    double result = ((a * calculatePow(x, 3)) + (b * calculatePow(x, 2)) + (c * x) + d);
     //cout << result;
     if (result == 0) // MANEJAR PRECISION EN DECIMALES
         return true;
@@ -204,4 +207,12 @@ void printResults() {
         for (auto i = results.begin(); i != results.end(); ++i)
             cout << *i << " ";
         cout << "}";
+}
+
+// Funcion que calcula la potencia de un numero, recibiendo argumentos -> (base, potencia)
+double calculatePow(double base, int exponent) {
+    double result;
+    for (int i = 0; i < exponent; ++i)
+        result *= base;
+    return result;
 }
