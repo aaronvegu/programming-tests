@@ -18,8 +18,6 @@ El ejecutable del programa se encuentra dentro de la carpeta _/exe_ en este fold
 
 Una vez descargado el ejecutable en su equipo, se puede proceder a su ejecución de la siguiente manera:
 
-### Findroots
-
 ```bash
 ./findroots a b c d
 ```
