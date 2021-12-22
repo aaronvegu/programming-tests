@@ -23,7 +23,7 @@ int main(int argc, char** argv)
     // Escribimos el inicio del JSON
     file << "{ \"files\": [" << std::endl;
 
-    // For loop que usa el iterador de directorios propio de Boost 
+    // For loop que usa el iterador de directorios propio de Filesystem (antes Boost) 
     // declaramos la variable entry, la cual se le asigna un tipo constante para evitar cambiar
     // su ubicacion en memoria, llamndo su valor mediante referencia e inicializando su contenido 
     // a traves de los archivos que va iterando directory_iterator en la ruta especificada en su argumento
