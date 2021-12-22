@@ -44,14 +44,5 @@ int main(int argc, char** argv)
     // Cerramos el flujo del archivo
     file.close();
 
-    //std::string line;
-
-    //file.open("files.json", std::ios::in);
-    //file.seekg(-1, std::ios_base::end);
-    //line = file.getline();
-    //line[line.size()-1] = "\0";
-    //line = line + "]}" << std::endl;
-    
-
     return 0;
 }
