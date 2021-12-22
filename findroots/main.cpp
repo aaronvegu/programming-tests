@@ -4,30 +4,21 @@
 
 using namespace std;
 
-// Vector para almacenar las raices del resultado
-vector<double> results;
+/** VECTORES para almacenar valores */
+vector<double> results; // Almacena las raices del resultado
+vector<double> possibleRoots; // Almacena posibles soluciones a iterar (resultado de la div sintetica)
 
-// Vector para almacenar posibles soluciones (resultado de la div sintetica)
-vector<double> possibleRoots;
-
-// Bandera para el manejo de errores
+/** FLAG para el manejo de errores */
 bool isError = false;
 
-// Prototipo de funcion para evaluar polinomio a un valor asignado
-bool isTheAnswer(double a, double b, double c, double d, double x);
+/** PROTOTIPOS de funciones definidas*/
+bool isTheAnswer(double a, double b, double c, double d, double value); // Evaluar polinomio a un valor asignado
+vector<double> factorsOf(double n); //Funcion para obtener los factores de n
+void getPossibleRoots(vector<double> p, vector<double> q); // Funcion para obtener las posibles raice
+void printResults(); // Funcion para imprimir vector con las raices del polinomio
+double calculatePow(double base, int exponent); // Funcion para calcular potencias
 
-// Prototipo de funcion para obtener los factores de n
-vector<double> factorsOf(double n);
-
-// Prototipo de funcion para obtener las posibles raices
-void getPossibleRoots(vector<double> p, vector<double> q);
-
-// Prototipo de funcion para imprimir resultados
-void printResults();
-
-// Prototipo de funcion para calcular potencias
-double calculatePow(double base, int exponent);
-
+// FUNCION PRINCIPAL (Main)
 int main(int argc, char** argv) {
     // Contador de raices
     // si raices > 3 = se encontraron todas las raices posibles
@@ -37,7 +28,7 @@ int main(int argc, char** argv) {
     double discriminant, squareDiscriminant;
 
     // Declaramos variable de la raiz
-    double x;
+    //double x;
     
     // Verificamos haber recibido los cuatro valores requeridos para el polinomio
     if (argc != 5) {
@@ -153,6 +144,8 @@ int main(int argc, char** argv) {
         return EXIT_SUCCESS;
     }
 }
+
+/** Desarrollo de Funciones */
 
 // Funcion de evaluacion
 bool isTheAnswer(double a, double b, double c, double d, double x) {

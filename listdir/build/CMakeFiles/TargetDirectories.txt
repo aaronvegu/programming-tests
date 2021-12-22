@@ -1,0 +1,3 @@
+/Users/aaronvegu/code/c++/programming-tests/listdir/build/CMakeFiles/listdir.dir
+/Users/aaronvegu/code/c++/programming-tests/listdir/build/CMakeFiles/edit_cache.dir
+/Users/aaronvegu/code/c++/programming-tests/listdir/build/CMakeFiles/rebuild_cache.dir
