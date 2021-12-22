@@ -272,11 +272,41 @@ vector<double> factorsOf(double n) {
 
 De manera local se declara un vector temporal al que se le agregan los factores que van siendo calculados, y despues es retornado como resultado de la funcion.
 
-Antes de evaluar los divisores de n, es importante pasar n a positivo en caso de ser negativo, esto para que sea posible obtener su raiz cuadrada, ya que es fundamental para obtener los divisibles de n.
+Antes de evaluar los divisores de n, es importante pasar n a positivo en caso de ser negativo, esto para que sea posible obtener su raiz cuadrada, ya que es fundamental para obtener los divisores de n.
 
-Se crea un loop for que inicia en cero y se recorre hasta la raiz de n, esto para eficientizar el algoritmo y no recorrer todos los valores de n desde cero.
+```cpp
+// Si n es negativo, lo pasamos a positivo para poder calcular su raiz
+if (n < 0.0) n = -n;
+```
 
-Dentro del loop, se evalua que la division de n sobre i resulte en un remainder de 0, indicando que se encuentra con un divisor de n, agregandolo al vector temporal. Debido a que se obtienen los valores en pares donde -> (i, raiz de n) y se va avanzando su valor de uno en uno, el par es evaluado y de ser distintos numeros los contenidos en el par, se agregan ambos, de lo contrario, solo se agrega uno de los divisores.
+Se crea un for loop que inicia en cero y se recorre hasta la raiz de n, esto para eficientizar el algoritmo y no recorrer todos los valores de n desde cero, obteniendo un par de valores que son evaluados más adelante.
+
+```cpp
+for (int i = 0; i <= sqrt(n); i++)
+```
+
+Dentro del loop, se evalua que la division de n sobre i resulte en un remainder de 0 usando la funcion fmod() para el calculo de modulo en valores de tipo double, indicando que se encuentra con un divisor de n, agregandolo al vector temporal.
+
+```cpp
+if (fmod(n,(double)i) == 0)
+```
+
+Debido a que se obtienen los valores en pares donde -> (i, raiz de n) y se va avanzando su valor de uno en uno, el par es evaluado y de ser distintos numeros los contenidos en el par, se agregan ambos, de lo contrario, solo se agrega uno de los divisores.
+
+```cpp
+if (n / i == i) // Si la division es entre mismos numeros, solo agregar uno
+    temp.push_back(i);
+else { // de lo contario, agregar ambos
+    temp.push_back(i);
+    temp.push_back(n/i);
+}
+```
+
+Ya que se han agregado los factores a nuestro vector, podemos proceder a devolver ese vector temporal para que sea manipulado en la funcion principal.
+
+```cpp
+return temp; // devolvemos vector con factores de n
+```
 
 #
 
