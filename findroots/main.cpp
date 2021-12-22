@@ -26,9 +26,6 @@ int main(int argc, char** argv) {
 
     // Declaracion de discriminante y su raiz cuadrada
     double discriminant, squareDiscriminant;
-
-    // Declaramos variable de la raiz
-    //double x;
     
     // Verificamos haber recibido los cuatro valores requeridos para el polinomio
     if (argc != 5) {
@@ -72,18 +69,11 @@ int main(int argc, char** argv) {
      */
     // Obtenemos factores de a
     vector<double> p = factorsOf(d);
-    for (auto i = p.begin(); i != p.end(); ++i)
-        cout << "P: " << *i << " ";
     // Obtenemos factores de d
     vector<double> q = factorsOf(a);
-    for (auto i = q.begin(); i != q.end(); ++i)
-        cout << "Q: " << *i << " ";
+    
     // Obtenemos posibles raices en base a p / q
     getPossibleRoots(p, q);
-
-    cout << "Possible factors:" << endl;
-    for (auto i = possibleRoots.begin(); i != possibleRoots.end(); ++i)
-        cout << *i << " ";
 
     /**
      * Una vez obtenidos las posibles raices, procedemos a realizar una
@@ -103,26 +93,20 @@ int main(int argc, char** argv) {
             rootsCounters++;
             if (rootsCounters < 3) { // Si quedan raices por encontrar
             // Aplicamos formula cuadratica con valores reducidos
-            cout << "Values: a " << value1 << ", b " << value2 << ", c" << value3 << ", d" << value4 << endl;
 
             // Obtenemos el discriminante de la formula
             discriminant = ((value2 * value2) - (4 * value1 * value3));
-            cout << "discriminante: " <<  discriminant << endl;
 
             // Si el discriminante es negativo, raiz no es real
             if (discriminant < 0.0) break;
 
             // Obtenemos su raiz cuadrada
             squareDiscriminant = sqrt(discriminant);
-            cout << "raiz de discriminante: " <<  squareDiscriminant << endl;
 
             // Calculamos las dos posibles raices
             double root1 = ((-1 * value2) - (squareDiscriminant)) / (2 * value1);
             double root2 = ((-1 * value2) + (squareDiscriminant)) / (2 * value1);
-
-            cout << "root1: " << root1 << endl;
-            cout << "root2: " << root2 << endl;
-
+            
             // Cargamos raices a vector de resultados
             results.push_back(root1);
             results.push_back(root2);
@@ -150,8 +134,7 @@ int main(int argc, char** argv) {
 // Funcion de evaluacion
 bool isTheAnswer(double a, double b, double c, double d, double x) {
     double result = ((a * calculatePow(x, 3)) + (b * calculatePow(x, 2)) + (c * x) + d);
-    //cout << result;
-    if (result == 0) // MANEJAR PRECISION EN DECIMALES
+    if (result == 0)
         return true;
 
     return false;
